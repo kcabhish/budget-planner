@@ -1,5 +1,6 @@
-import {expenses} from '../mockedData/expenses';
+import {expenses} from '../..//mockedData/expenses';
 import ExpenseItem from './ExpenseItem';
+import './Expenses.scss';
 export const Expenses = (props) => {
     return (
         expenses.map( (expenseItem) => {
