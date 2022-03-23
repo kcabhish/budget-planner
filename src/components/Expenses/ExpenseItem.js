@@ -2,7 +2,6 @@ import './ExpenseItem.scss';
 import {ExpenseDate} from './ExpenseDate';
 import Cards from '../Ui/Cards';
 function ExpenseItem (props) {
-
     return (
         <Cards className='expense-item'>
             <div><ExpenseDate date={props.date}/></div>
