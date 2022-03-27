@@ -1,33 +1,32 @@
-import {expenses} from '../../mockedData/expenses';
-import Cards from '../Ui/Cards';
+
+import { useState } from 'react';
 import ExpensesFilter from '../UserInputs/ExpensesFilter';
-import ExpenseItem from './ExpenseItem';
 import './Expenses.scss';
+import ExpensesList from './ExpensesList';
+import ExpenseChart from './ExpenseChart'
 
 
 export const Expenses = (props) => {
+    const [expenses, updateExpenses] = useState(props.expenses);
     /**
      * Callback function for the ExpensesFilter
      * @param {*} e 
      */
     const expensesFilterOnChangeEvent = (e) => {
-        console.log(e.target.value);
+        updateExpenses(() => {
+            return props.expenses.filter(item => {
+                return item.date.toString().includes(e.target.value);
+            });
+        })
     }
+
+
 
     return (
         <div className='expenses'>
             <ExpensesFilter onYearChange={expensesFilterOnChangeEvent} />
-        {expenses.map( (expenseItem) => {
-            return (
-                <Cards key={expenseItem.id}>
-                    <ExpenseItem 
-                    key={expenseItem.id}
-                    date={expenseItem.date}
-                    amount={expenseItem.amount}
-                    title={expenseItem.title}></ExpenseItem>
-                </Cards>
-            );
-        })}
+            <ExpenseChart expenses={expenses} />
+            <ExpensesList expenses={expenses}/>
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import './ExpenseForm.scss';
 import React, { useState } from 'react';
+import { v4 } from 'uuid';
 
 const EVENT_TYPES = {
     'TITLE': 'title',
@@ -10,7 +11,7 @@ const ExpenseForm = (props) => {
     const [enteredTitle, setEnteredTitle] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
     const [enteredDate, setEnteredDate] = useState('');
-
+    let counter = 0;
     const eventHandler = (event, eventType ) => {
         switch(eventType) {
             case EVENT_TYPES.TITLE: {
@@ -41,12 +42,23 @@ const ExpenseForm = (props) => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
         const submitData = {
+            id: v4(),
             title: enteredTitle,
-            amount: enteredAmount,
-            date: enteredDate
+            amount: parseInt(enteredAmount),
+            date: !!enteredDate ? new Date(enteredDate) : null
         }
-        props.onSaveExpense(submitData);
-        resetFormValues();
+        if (isFormValid(submitData)) {
+            props.onSaveExpense(submitData);
+            resetFormValues();
+        }
+        console.log("INVALID FORM");
+    }
+
+    const isFormValid = (formData) => {
+        if (!formData.title) return false;
+        if (!formData.amount) return false;
+        if (!formData.date) return false;
+        return true;
     }
 
     return (
@@ -64,7 +76,7 @@ const ExpenseForm = (props) => {
             </div>
             <div className='new-expense__control'>
                 <label>Date</label>
-                <input type='date' value={enteredDate} min="2022-01-01" max='2022-12-31'  onChange = {(e) => eventHandler(e, EVENT_TYPES.DATE)}></input>
+                <input type='date' value={enteredDate} min="2020-01-01" max='2022-12-31'  onChange = {(e) => eventHandler(e, EVENT_TYPES.DATE)}></input>
             </div>
             <div className='new-expense__actions'>
                 <button type='submit'>Add Expense</button>

@@ -4,7 +4,7 @@ import './NewExpense.scss';
 
 const NewExpense = (props) => {
     const newExpenseOnSubmitHandler = (formData) => {
-        console.log(formData);
+        props.addExpenseHadler(formData);
     }
     return <div className='new-expense'>
         <ExpenseForm onSaveExpense={newExpenseOnSubmitHandler} />
